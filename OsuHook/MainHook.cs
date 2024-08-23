@@ -25,7 +25,7 @@ namespace OsuHook
                 InitializePatches(_harmony);
 
                 Notifications.ShowMessage(
-                    "osu!patcher initialized!",
+                    "osu!patcher initialized! Have fun!",
                     NotificationColor.Neutral,
                     5000,
                     () => { Process.Start(GithubUrl); }
