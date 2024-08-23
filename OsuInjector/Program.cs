@@ -51,17 +51,50 @@ namespace OsuInjector
 
                     if (exe != "osu!.exe") continue;
 
-                    // Make sure there's a -devserver xxxxx in cli args
-                    if (!new Regex(@"osu!\.exe +-devserver \w").IsMatch(cli))
-                        throw new Exception("Will not inject into osu! connected to Bancho! Is bannable!");
-                    else if (!new Regex(@"osu!\.exe +-devserver akatsuki.gg").IsMatch(cli))
-                        throw new Exception("Akatsuki has an own patcher... What are you doing?");
+                    // Check if the process is connected to a non osuwtf.pw server
+                    var match = Regex.Match(cli, @"-devserver\s+(\S+)");
+                    if (match.Success)
+                    {
+                        var server = match.Groups[1].Value;
 
-                    return pid;
+                        if (server != "osuwtf.pw")
+                        {
+                            // osu! crash
+                            ForceCrash(pid, "This patcher is only compatible with osu!wtf.");
+                        }
+
+                        return pid;
+                    }
+
+                    throw new Exception("Will not inject into osu! connected to Bancho! Is bannable!");
                 }
             }
 
             throw new Exception("Cannot find a running osu! process! Does osu! open?");
+        }
+
+        /// <summary>
+        ///     Forces the osu! process to crash and displays a custom error message.
+        /// </summary>
+        /// <param name="pid">The process ID of the osu! process.</param>
+        /// <param name="errorMessage">The error message to display before crashing.</param>
+        private static void ForceCrash(uint pid, string errorMessage)
+        {
+            try
+            {
+                // Attach to the osu! process
+                var process = System.Diagnostics.Process.GetProcessById((int)pid);
+
+                // Show error message
+                Console.WriteLine(errorMessage);
+
+                // Terminate the process
+                process.Kill();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to crash osu! process: {ex.Message}");
+            }
         }
     }
 }
