@@ -25,7 +25,7 @@ namespace OsuHook
                 InitializePatches(_harmony);
 
                 Notifications.ShowMessage(
-                    "osu!patcher initialized! Have fun!",
+                    "osu!wtf patcher initialized! Have fun!",
                     NotificationColor.Neutral,
                     5000,
                     () => { Process.Start(GithubUrl); }
@@ -70,7 +70,7 @@ namespace OsuHook
             try
             {
                 Notifications.ShowMessage(
-                    "osu!patcher experienced an error! Click to report.",
+                    "osu!wtf patcher experienced an error! Click to report.",
                     NotificationColor.Error,
                     20000,
                     () => { Process.Start($"{GithubUrl}/issues"); });

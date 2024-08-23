@@ -61,7 +61,7 @@ namespace OsuInjector
                 }
             }
 
-            throw new Exception("Cannot find a running osu! process!");
+            throw new Exception("Cannot find a running osu! process! Does osu! open?");
         }
     }
 }
