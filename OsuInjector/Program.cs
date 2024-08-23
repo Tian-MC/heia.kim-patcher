@@ -15,7 +15,7 @@ namespace OsuInjector
                 var hookDllPath = Path.GetFullPath(typeof(Program).Assembly.Location + @"\..\osu!.hook.dll");
 
                 if (!File.Exists(hookDllPath))
-                    throw new Exception("Unable to find osu!.hook.dll in the current directory!");
+                    throw new Exception("Unable to find osu!.hook.dll in the current directory! Are you trying to cheat?");
 
                 using (var proc = new InjectableProcess(GetOsuPid()))
                 {
@@ -53,7 +53,9 @@ namespace OsuInjector
 
                     // Make sure there's a -devserver xxxxx in cli args
                     if (!new Regex(@"osu!\.exe +-devserver \w").IsMatch(cli))
-                        throw new Exception("Will not inject into osu! connected to Bancho!");
+                        throw new Exception("Will not inject into osu! connected to Bancho! Is bannable!");
+                    else if (!new Regex(@"osu!\.exe +-devserver akatsuki.gg").IsMatch(cli))
+                        throw new Exception("Akatsuki has an own patcher... What are you doing?");
 
                     return pid;
                 }
